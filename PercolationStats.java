@@ -6,14 +6,24 @@ public class PercolationStats{
     
      public PercolationStats(int n, int trials) 
      {
-         if(n< 1 || trials <1) 
+         if( n< 0 || trials  <=0) 
          {
              throw new IllegalArgumentException("wrong arguments");
          }
          
          this.trials = trials;
+         trialResults = new double[trials];
+         int cellCount = n * n;
+         
          final double[] results = new double[trials];
-         for (int i = 0; i < trials; ++i)
+         
+         
+         for (int i = 0; i < cellCount; i++ )
+         {
+             cellIndices[i] =i
+         }
+         
+         for (int i = 0; i < trials; i++ )
          {
              final Percolation percolation = new Percolation(n);
          }
