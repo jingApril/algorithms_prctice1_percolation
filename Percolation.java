@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation{
@@ -24,7 +26,7 @@ public class Percolation{
       
       public  void open(int row, int col) { //open site(row, col) if it is not open already
           
-             row = StdRandom.uniform( n-1);
+             row = StdRandom.uniform(n-1);
              col = StdRandom.uniform(n-1);
             while ( grid[row][col]==BLCOKED) {
                 grid[row][col] = OPENED;
@@ -33,14 +35,19 @@ public class Percolation{
       }
       public boolean isOpen(int row, int col) //open site(row, col) if it is not open already    
       {      
-              if(row <=0 || row > n || col < 0 || col > n)   throw new IllegalException(" Invalid arguments");
+              if(row < 0 || row > n || col < 0 || col > n)   throw new IllegalException(" Invalid arguments");
               return (grid[row][col] == OPEND ? true : false );      
       }
       
       public boolean isFull(int row, int col) // is site(row, col) open?
       {
-            if(row <=0 || row > n || col < 0 || col > n)   throw new IllegalException(" Invalid arguments");
-            return (grid[row][col] == FULLY_OPENED ? true : false );    
+            if(row < 0 || row > n || col < 0 || col > n)   throw new IllegalException(" Invalid arguments");
+            return (grid[row][col] == FULLY_OPENED ? true : false );
+            return weightedQuickUnionUF.connected(xyTo1D(row, col), xyTo1D(row+1, col));
+      }
+      
+      private int xyTo1D(int row, int col) {
+           return row*n + col;
       }
       
       public int numberOfOpenSites() {
@@ -59,9 +66,7 @@ public class Percolation{
        return unionInstance.connected(0, n* n+1);
     }
     
-    private int xyTo1D(int row, int col) {
-           return row*n + col;
-    }
+
       
     public static void main(String[] args) {
       
