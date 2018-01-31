@@ -1,63 +1,75 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class PercolationStats{
     
-     public PercolationStats(int n, int trials) 
-     {
-         if( n< 0 || trials  <=0) 
+      private int N;
+      private int T;
+      private Percolation pr;
+      private double[] results;
+      
+      public PercolationStats(int N, int T) 
+       {  
+         if( N < 0 || T  <=0 ) 
          {
-             throw new IllegalArgumentException("wrong arguments");
+                 throw new IllegalArgumentException("wrong arguments");
          }
          
-         this.trials = trials;
-         trialResults = new double[trials];
-         int cellCount = n * n;
-         
-         final double[] results = new double[trials];
-         
-         
-         for (int i = 0; i < cellCount; i++ )
+         this.N = N;
+         this.T = T;
+         results = new double[T];
+
+         for (int k = 0; k < T; k++ )
          {
-             cellIndices[i] =i
+                pr = new Percolation(N);
+                 int openedSites = 0;
+                     while(!pr.percolates()) {
+                         
+                          int i =StdRandom.uniform(1, N+1);
+                          int j =StdRandom.uniform(1, N+1);
+                          if(!pr.isOpen(i, j) )
+                          {
+                               pr.open(i, j);
+                              openedSites = pr.numberOfOpenSites();
+                          }
+              }
+                     
+                double result =(double) openedSites  /(N*N);
+                 results[k] = result; 
+                
          }
-         
-         for (int i = 0; i < trials; i++ )
-         {
-             final Percolation percolation = new Percolation(n);
-         }
-         
-         while(!percolation.percolates()) {
-             final int row =StdRandom.uniform(1, n);
-             final int col =StdRamdom.uniform(1, n);
-             percolation.open(row, col);
-         }
-         
-         results[i] = (double) percolation.numberOfOpenSites()/n *n;
          
      }
      
      public double mean(){ //sample mean od percolation threshold
-       mean =StdStds.mean(results);
+           return StdStats.mean(results);
      }  
      
      public double stddev(){ // sample standard deviation of percolatopn threshold
-       stdDevistion = StdStats.stddev(results);
+           return  StdStats.stddev(results);
      }
      
      public double confidenceLo() { //low endpiont of 95% confidence intercal
       
-     return 0;
+               return mean() - ((1.96 * stddev()) / Math.sqrt(T));
      }   
      
      public double confidenceHi() {//high endpoint of 95% confidence interval
-     return 0;
+               return mean() + ((1.96 * stddev()) / Math.sqrt(T));
      
      }
      
-     public static void main(String[] args) //test client (described below)
-     {
-     int n = Integer.parseInt(args[0]);
-     }
+    
+      public static void main(String[] args) {
+        int N = Integer.parseInt(args[0]);
+        int T = Integer.parseInt(args[1]);
+        PercolationStats ps = new PercolationStats(N, T);
+
+        String confidence = ps.confidenceLo() + ", " + ps.confidenceHi();
+        System.out.println("mean                    = " + ps.mean());
+        System.out.println("stddev                  = " + ps.stddev());
+       System.out.println("95% confidence interval = " + confidence);
+    }
+     
+     
 }
