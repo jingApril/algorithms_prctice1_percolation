@@ -8,11 +8,12 @@ public class PercolationStats{
       private Percolation pr;
       private double[] results;
       
-      public PercolationStats(int N, int T) 
-       {  
-         if( N < 0 || T  <=0 ) 
-         {
-                 throw new IllegalArgumentException("wrong arguments");
+      public PercolationStats(int N, int T) {  
+       
+         if( N < 0 || T  <=0 ) {
+          
+            throw new IllegalArgumentException("wrong arguments");
+            
          }
          
          this.N = N;
@@ -27,14 +28,15 @@ public class PercolationStats{
                          
                           int i =StdRandom.uniform(1, N+1);
                           int j =StdRandom.uniform(1, N+1);
+                          
                           if(!pr.isOpen(i, j) )
                           {
-                               pr.open(i, j);
-                              openedSites = pr.numberOfOpenSites();
+                              pr.open(i, j);
+                              openedSites++;
                           }
               }
                      
-                double result =(double) openedSites  /(N*N);
+                double result =(double) openedSites /(N*N);
                  results[k] = result; 
                 
          }
@@ -42,20 +44,27 @@ public class PercolationStats{
      }
      
      public double mean(){ //sample mean od percolation threshold
-           return StdStats.mean(results);
+      
+          return StdStats.mean(results);
+          
      }  
      
      public double stddev(){ // sample standard deviation of percolatopn threshold
-           return  StdStats.stddev(results);
+      
+          return  StdStats.stddev(results);
+          
      }
      
      public double confidenceLo() { //low endpiont of 95% confidence intercal
       
-               return mean() - ((1.96 * stddev()) / Math.sqrt(T));
+          return mean() - ((1.96 * stddev()) / Math.sqrt(T));
+          
      }   
      
      public double confidenceHi() {//high endpoint of 95% confidence interval
-               return mean() + ((1.96 * stddev()) / Math.sqrt(T));
+      
+          return mean() + ((1.96 * stddev()) / Math.sqrt(T));
+          
      
      }
      
@@ -68,7 +77,7 @@ public class PercolationStats{
         String confidence = ps.confidenceLo() + ", " + ps.confidenceHi();
         System.out.println("mean                    = " + ps.mean());
         System.out.println("stddev                  = " + ps.stddev());
-       System.out.println("95% confidence interval = " + confidence);
+        System.out.println("95% confidence interval = " + confidence);
     }
      
      
