@@ -7,7 +7,6 @@ public class PercolationStats {
       private int t;
       private Percolation pr;
       private double[] results;
-      public static final double CONFIDENCE_95= 1.96;
       
       public PercolationStats(int n, int t) {     
           
@@ -54,12 +53,12 @@ public class PercolationStats {
      
      public double confidenceLo() { // low endpiont of 95% confidence intercal
       
-              return mean() - ((CONFIDENCE_95 * stddev()) / Math.sqrt(t));
+              return mean() - ((1.96 * stddev()) / Math.sqrt(t));
      }   
      
      public double confidenceHi() { // high endpoint of 95% confidence interval
       
-            return mean() + ((CONFIDENCE_95 * stddev()) / Math.sqrt(t));
+            return mean() + ((1.96 * stddev()) / Math.sqrt(t));
      }
      
     
